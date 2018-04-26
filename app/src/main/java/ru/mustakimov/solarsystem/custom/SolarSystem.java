@@ -4,18 +4,23 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.Setter;
+
 public class SolarSystem extends View {
-
-    private int width;
-    private int height;
+    @Getter
+    @Setter
     private List<Planet> planets;
-
+    @Getter
+    private Planet solar;
     private Paint paint;
 
     public SolarSystem(Context context) {
@@ -34,12 +39,8 @@ public class SolarSystem extends View {
         paint.setTextSize(100);
 
         planets = new ArrayList<>();
-    }
 
-    @Override
-    protected void onLayout(boolean changed, int l, int t, int r, int b) {
-        width = r - l;
-        height = b - t;
+        solar = new Sun(50, 0, Color.YELLOW, null);
     }
 
     @Override
@@ -47,23 +48,38 @@ public class SolarSystem extends View {
         super.onDraw(canvas);
 
         canvas.drawColor(Color.BLUE);
+
+        solar.draw(canvas);
         for (Planet planet : planets) {
             planet.draw(canvas);
         }
     }
 
-    public List<Planet> getPlanets() {
-        return planets;
+    public void reset() {
+        planets.clear();
     }
 
-    public void setPlanets(List<Planet> planets) {
-        this.planets = planets;
+    public void addPlanet(float radius, float distance, int color) {
+        planets.add(new PhysicsPlanet(radius, distance, color, solar));
     }
 
-    public void addPlanet(Planet planet) {
-        if (planet != null)
-            this.planets.add(planet);
-        else
-            throw new IllegalArgumentException("Planet must not be null!");
+    public void addPlanet(float radius, float distance, Drawable drawable) {
+        planets.add(new PhysicsPlanet(radius, distance, drawable, solar));
+    }
+
+    public void addPlanet(@NonNull Planet planet) {
+        this.planets.add(planet);
+    }
+
+    public void start() {
+
+    }
+
+    public void stop() {
+
+    }
+
+    public void pause() {
+
     }
 }
