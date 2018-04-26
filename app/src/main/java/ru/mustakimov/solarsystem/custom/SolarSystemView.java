@@ -17,7 +17,7 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 
-public class SolarSystem extends View {
+public class SolarSystemView extends View {
     @Getter
     @Setter
     private List<Planet> planets;
@@ -26,12 +26,12 @@ public class SolarSystem extends View {
 
     private UpdateTask task;
 
-    public SolarSystem(Context context) {
+    public SolarSystemView(Context context) {
         super(context);
         init();
     }
 
-    public SolarSystem(Context context, AttributeSet attrs) {
+    public SolarSystemView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
     }

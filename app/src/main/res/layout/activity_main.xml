@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <ru.mustakimov.solarsystem.custom.SolarSystem
+    <ru.mustakimov.solarsystem.custom.SolarSystemView
         android:id="@+id/solarSystem"
         android:layout_width="0dp"
         android:layout_height="0dp"
