@@ -4,6 +4,8 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 
+import java.util.Random;
+
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NonNull;
@@ -32,11 +34,13 @@ public class PhysicsPlanet extends Planet {
 
     public PhysicsPlanet(float radius, float distance, int color, @NonNull Planet parent) {
         super(radius, distance, color, parent);
+        velocity = new Random().nextFloat() * (float) (Math.PI / 60);
         init();
     }
 
     public PhysicsPlanet(float radius, float distance, Drawable imageDrawable, Planet parent) {
         super(radius, distance, imageDrawable, parent);
+        velocity = new Random().nextFloat() * (float) (Math.PI / 360);
         init();
     }
 
