@@ -1,6 +1,7 @@
 package ru.mustakimov.solarsystem.custom;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 
@@ -23,8 +24,10 @@ public class PhysicsPlanet extends Planet {
     @Setter
     private float velocity;
     @Getter
-    @Setter
-    private Paint paint;
+    private Paint planetPaint;
+    @Getter
+    private Paint radiusPaint;
+
 
     public PhysicsPlanet(String name, float radius, float distance, int color,
                          Drawable imageDrawable, @NonNull Planet parent) {
@@ -34,25 +37,31 @@ public class PhysicsPlanet extends Planet {
 
     public PhysicsPlanet(float radius, float distance, int color, @NonNull Planet parent) {
         super(radius, distance, color, parent);
-        velocity = new Random().nextFloat() * (float) (Math.PI / 60);
         init();
     }
 
-    public PhysicsPlanet(float radius, float distance, Drawable imageDrawable, Planet parent) {
+    public PhysicsPlanet(float radius, float distance, Drawable imageDrawable, @NonNull Planet parent) {
         super(radius, distance, imageDrawable, parent);
-        velocity = new Random().nextFloat() * (float) (Math.PI / 360);
         init();
     }
 
     private void init() {
-        paint = new Paint();
-        paint.setColor(getColor());
-        paint.setStyle(Paint.Style.FILL_AND_STROKE);
-        paint.setStrokeWidth(2);
+        planetPaint = new Paint();
+        planetPaint.setColor(getColor());
+        planetPaint.setStyle(Paint.Style.FILL_AND_STROKE);
+        planetPaint.setStrokeWidth(2);
+
+        radiusPaint = new Paint();
+        radiusPaint.setStyle(Paint.Style.STROKE);
+        radiusPaint.setStrokeWidth(2);
+        radiusPaint.setColor(Color.argb(50, 0, 0, 0));
+
+        velocity = new Random().nextFloat() * (float) (Math.PI / 60);
     }
 
     @Override
     public void draw(Canvas canvas) {
+        canvas.drawCircle(getParent().getX(), getParent().getY(), getDistance(), getRadiusPaint());
         if (getImageDrawable() != null) {
             Drawable d = getImageDrawable();
             int left = (int) (getX() - getRadius());
@@ -62,18 +71,18 @@ public class PhysicsPlanet extends Planet {
             d.setBounds(left, top, right, bottom);
             d.draw(canvas);
         } else {
-            canvas.drawCircle(getX(), getY(), getRadius(), getPaint());
+            canvas.drawCircle(getX(), getY(), getRadius(), getPlanetPaint());
         }
     }
 
     @Override
     public float getX() {
-        return getParent().getX() + getDistance()*(float)cos(getAngle());
+        return getParent().getX() + getDistance() * (float) cos(getAngle());
     }
 
     @Override
     public float getY() {
-        return getParent().getY() + getDistance()*(float)sin(getAngle());
+        return getParent().getY() + getDistance() * (float) sin(getAngle());
     }
 
     @Override
